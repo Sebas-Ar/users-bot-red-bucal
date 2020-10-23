@@ -1,6 +1,7 @@
 const dbConnection = require('./database/db-connection')
-const {ObjectId} = require('mongodb')
 const user_query = require('./database/query/user_query')
+const {ObjectId} = require('mongodb')
+const sendMail = require('./email/alerts')
 
 const main = async () => {
 
@@ -11,10 +12,9 @@ const main = async () => {
 
         user.forEach(async date => {
 
-            const {end, alerts, _id} = date
+            const {end, alerts, _id, email, name} = date
 
             const now = new Date()
-            console.log(now)
 
             const one_week_more = new Date(new Date(now).setDate(now.getDate() + 7))
 
@@ -22,6 +22,8 @@ const main = async () => {
             
             if (now < end) {
 
+                console.log('you still have more than a month left')
+                sendMail(name, email, 'you still have more than a month left')
                 if (one_week_more > end && !alerts.week) {
 
                     console.log('send alert week')

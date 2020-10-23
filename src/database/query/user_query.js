@@ -4,6 +4,8 @@ const query = [
     },
     {
         $project: {
+            name: true,
+            email: true,
             end: true,
             alerts: true
         }
